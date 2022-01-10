@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/kim-se-yeong/nodejs-study#readme",
   "dependencies": {
+    "express": "^4.17.2",
     "underscore": "^1.13.2"
   }
 }
