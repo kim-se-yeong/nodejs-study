@@ -1,5 +1,15 @@
 const express = require('express');
 const app = express();
+app.locals.pretty = true;
+
+//template 있는 디렉토리
+app.set('views', './views');
+// 사용할 template engine
+app.set('view engine', 'jade');
+
+app.get('/template', function(req, res) {
+    res.render('temp', {time:Date(), _title:'Jade'});
+});
 
 app.get('/', function(req, res) {
     res.send('Hello home page');
