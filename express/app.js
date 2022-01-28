@@ -66,6 +66,11 @@ app.get('/topic', function(req, res) {
     res.send(output);
 });
 
+// semantic url
+app.get('/topic/:id', function(req, res) {
+    res.send(req.params.id);
+});
+
 app.listen(3000, function() {
     console.log('Connected 3000 port!');    
 });
