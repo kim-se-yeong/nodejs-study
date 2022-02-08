@@ -18,7 +18,26 @@ app.get('/', (req, res) => {
 });
 
 app.get('/page/:pageId', (req, res) => {
-    res.send(req.params.pageId);
+    fs.readdir('data', (err, filelist) => {
+        var filteredId = path.parse(req.params.pageId).base;
+        fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
+            var title = req.params.pageId;
+            var sanitizedTitle = sanitizeHtml(title);
+            var sanitizedDescription = sanitizeHtml(description, {
+                allowedTags:['h1']
+            });
+            var list = template.list(filelist);
+            var html = template.HTML(sanitizedTitle, list,
+                `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
+                `   <a href="/create">create</a>
+                    <a href="/update/${sanitizedTitle}">update</a>
+                    <form action="delete_process" method="post">
+                    <input type="hidden" name="id" value="${sanitizedTitle}">
+                    <input type="submit" value="delete"
+                    </form>`);
+        });
+    });
+    res.send(html);
 });
 
 app.get('/create', (req, res) => {
@@ -54,6 +73,10 @@ app.post('/create', (req, res) => {
             res.end();
         });
     });
+});
+
+app.get('/update/:pageId', (req, res) => {
+    res.send(req.params.pageId);
 });
 
 app.listen(3000, () => {
