@@ -71,7 +71,7 @@ app.post('/create', (req, res) => {
         var title = post.title;
         var description = post.description;
         fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
-            res.writeHead(302, {Location: `/?id=${title}`});
+            res.writeHead(302, {Location: `/page/${title}`});
             res.end();
         });
     });
