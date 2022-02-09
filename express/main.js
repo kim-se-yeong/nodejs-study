@@ -78,7 +78,46 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/update/:pageId', (req, res) => {
-    res.send(req.params.pageId);
+    fs.readdir('data', function(err, filelist) {
+        var filteredId = path.parse(req.params.pageId).base;
+        fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
+            var title = req.params.pageId;
+            var list = template.list(filelist);
+            var html = template.HTML(title, list,
+                `<form action="/update" method="post">
+                    <input type="hidden" name="id" value="${title}">
+                        <p><input type="text" name="title" placeholder="title" value="${title}">
+                        <p>
+                            <textarea name="description" placeholder="description">${description}</textarea>
+                        </p>
+                        <p>
+                            <input type="submit">
+                        </p>
+                </form>
+                `, `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+                );
+            res.send(html);
+        });
+    });
+});
+
+app.post('/update', (req, res) => {
+    var body = '';
+    req.on('data', (data) => {
+        body = body + data;
+    });
+    req.on('end', () => {
+        var post = qs.parse(body);
+        var id = post.id;
+        var title = post.title;
+        var description = post.description;
+        fs.rename(`data/${id}`, `data/${title}`, (err) => {
+            fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
+                res.writeHead(302, {Location: `/page/${title}`});
+                res.end();
+            });
+        });
+    });
 });
 
 app.listen(3000, () => {
