@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const qs = require('querystring');
+const path = require('path');
+const sanitizeHtml = require('sanitize-html');
 const template = require('./lib/template.js');
 
 app.get('/', (req, res) => {
@@ -35,9 +37,9 @@ app.get('/page/:pageId', (req, res) => {
                     <input type="hidden" name="id" value="${sanitizedTitle}">
                     <input type="submit" value="delete"
                     </form>`);
+            res.send(html);
         });
     });
-    res.send(html);
 });
 
 app.get('/create', (req, res) => {
