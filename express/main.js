@@ -63,10 +63,10 @@ app.get('/create', (req, res) => {
 
 app.post('/create', (req, res) => {
     var body = '';
-    req.on('data', (data) => {
+    req.on('data', (data) => { //요청에 데이터가 있으면
         body = body + data;
     });
-    req.on('end', () => {
+    req.on('end', () => { //요청에 데이터가 모두 받아졌으면
         var post = qs.parse(body);
         var title = post.title;
         var description = post.description;
@@ -103,10 +103,10 @@ app.get('/update/:pageId', (req, res) => {
 
 app.post('/update', (req, res) => {
     var body = '';
-    req.on('data', (data) => {
+    req.on('data', (data) => { //요청에 데이터가 있으면
         body = body + data;
     });
-    req.on('end', () => {
+    req.on('end', () => { //요청에 데이터가 모두 받아졌으면
         var post = qs.parse(body);
         var id = post.id;
         var title = post.title;
