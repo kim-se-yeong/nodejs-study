@@ -1,0 +1,3 @@
+{
+    "presets": ["@babel/preset-env"] //이 코드를 통해, 자바스크립트 파일(ex) index.js)이 실행될 때, 바벨이 이 코드를 읽고 바벨의 preset과 관련된 기능을 실행한다. 
+}

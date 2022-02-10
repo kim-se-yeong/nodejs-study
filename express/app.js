@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 app.locals.pretty = true;
 
@@ -48,7 +48,7 @@ app.get('/dynamic', function(req, res) {
     </html>`;
     res.send(output);
 })
-app.use(express.static('public'));
+app.use(static('public'));
 
 //use query string
 app.get('/topic', function(req, res) {
