@@ -1,17 +1,17 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const fs = require('fs');
-const qs = require('querystring');
-const path = require('path');
-const sanitizeHtml = require('sanitize-html');
-const template = require('./lib/template.js');
+import { readdir, readFile, writeFile, rename } from 'fs';
+import { parse } from 'querystring';
+import { parse as _parse } from 'path';
+import sanitizeHtml from 'sanitize-html';
+import { list as _list, HTML } from './lib/template.js';
 
 app.get('/', (req, res) => {
-    fs.readdir('./data', (err, filelist) => {
+    readdir('./data', (err, filelist) => {
         var title = 'Welcome';
         var description = 'Hello, Node.js'
-        var list = template.list(filelist);
-        var html = template.HTML(title, list,
+        var list = _list(filelist);
+        var html = HTML(title, list,
             `<h2>${title}</h2>${description}`,
             `<a href="/create">create</a>`
         );
@@ -20,16 +20,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/page/:pageId', (req, res) => {
-    fs.readdir('data', (err, filelist) => {
-        var filteredId = path.parse(req.params.pageId).base;
-        fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
+    readdir('data', (err, filelist) => {
+        var filteredId = _parse(req.params.pageId).base;
+        readFile(`data/${filteredId}`, 'utf8', (err, description) => {
             var title = req.params.pageId;
             var sanitizedTitle = sanitizeHtml(title);
             var sanitizedDescription = sanitizeHtml(description, {
                 allowedTags:['h1']
             });
-            var list = template.list(filelist);
-            var html = template.HTML(sanitizedTitle, list,
+            var list = _list(filelist);
+            var html = HTML(sanitizedTitle, list,
                 `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
                 `   <a href="/create">create</a>
                     <a href="/update/${sanitizedTitle}">update</a>
@@ -43,10 +43,10 @@ app.get('/page/:pageId', (req, res) => {
 });
 
 app.get('/create', (req, res) => {
-    fs.readdir('data', (err, fileList) => {
+    readdir('data', (err, fileList) => {
         var title = 'WEB - create';
-        var list = template.list(fileList);
-        var html = template.HTML(title, list, `
+        var list = _list(fileList);
+        var html = HTML(title, list, `
             <form action="/create" method="post">
                 <p><input type="text" name="title" placeholder="title"></p>
                 <p>
@@ -63,14 +63,14 @@ app.get('/create', (req, res) => {
 
 app.post('/create', (req, res) => {
     var body = '';
-    req.on('data', (data) => { //요청에 데이터가 있으면
+    req.on('data', (data) => {
         body = body + data;
     });
-    req.on('end', () => { //요청에 데이터가 모두 받아졌으면
-        var post = qs.parse(body);
+    req.on('end', () => {
+        var post = parse(body);
         var title = post.title;
         var description = post.description;
-        fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
+        writeFile(`data/${title}`, description, 'utf8', (err) => {
             res.writeHead(302, {Location: `/page/${title}`});
             res.end();
         });
@@ -78,12 +78,12 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/update/:pageId', (req, res) => {
-    fs.readdir('data', function(err, filelist) {
-        var filteredId = path.parse(req.params.pageId).base;
-        fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
+    readdir('data', function(err, filelist) {
+        var filteredId = _parse(req.params.pageId).base;
+        readFile(`data/${filteredId}`, 'utf8', (err, description) => {
             var title = req.params.pageId;
-            var list = template.list(filelist);
-            var html = template.HTML(title, list,
+            var list = _list(filelist);
+            var html = HTML(title, list,
                 `<form action="/update" method="post">
                     <input type="hidden" name="id" value="${title}">
                         <p><input type="text" name="title" placeholder="title" value="${title}">
@@ -103,16 +103,16 @@ app.get('/update/:pageId', (req, res) => {
 
 app.post('/update', (req, res) => {
     var body = '';
-    req.on('data', (data) => { //요청에 데이터가 있으면
+    req.on('data', (data) => {
         body = body + data;
     });
-    req.on('end', () => { //요청에 데이터가 모두 받아졌으면
-        var post = qs.parse(body);
+    req.on('end', () => {
+        var post = parse(body);
         var id = post.id;
         var title = post.title;
         var description = post.description;
-        fs.rename(`data/${id}`, `data/${title}`, (err) => {
-            fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
+        rename(`data/${id}`, `data/${title}`, (err) => {
+            writeFile(`data/${title}`, description, 'utf8', (err) => {
                 res.writeHead(302, {Location: `/page/${title}`});
                 res.end();
             });

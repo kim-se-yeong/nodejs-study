@@ -1,6 +1,5 @@
-module.exports = {
-    HTML:function(title, list, body, control) {
-        return `
+export function HTML(title, list, body, control) {
+    return `
             <!doctype html>
             <html>
             <head>
@@ -15,14 +14,14 @@ module.exports = {
             </body>
             </html>
         `;
-    }, list:function(filelist) {
-        var list = '<ul>';
-        var i = 0;
-        while(i < filelist.length) {
-            list = list + `<li><a href="/page/${filelist[i]}">${filelist[i]}</a></li>`
-            i = i + 1;
-        }
-        list = list + '</ul>';
-        return list;
+}
+export function list(filelist) {
+    var list = '<ul>';
+    var i = 0;
+    while (i < filelist.length) {
+        list = list + `<li><a href="/page/${filelist[i]}">${filelist[i]}</a></li>`;
+        i = i + 1;
     }
+    list = list + '</ul>';
+    return list;
 }
