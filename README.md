@@ -16,7 +16,7 @@ Create babel config file
 
 * .babelrc 
 
-Adding 'type':'module' to the package.json enables ES6 modules.
+Adding `'type':'module'` to the package.json
 
 ---
 
