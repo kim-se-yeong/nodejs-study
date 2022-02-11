@@ -4,14 +4,14 @@ import fs from 'fs';
 import qs from 'querystring';
 import path from 'path';
 import sanitizeHtml from 'sanitize-html';
-import * as template from './lib/template.js';
+import {HTML, list as _list} from './lib/template.js';
 
 app.get('/', (req, res) => {
     fs.readdir('./data', (err, filelist) => {
         var title = 'Welcome';
         var description = 'Hello, Node.js'
-        var list = template.list(filelist);
-        var html = template.HTML(title, list,
+        var list = _list(filelist);
+        var html = HTML(title, list,
             `<h2>${title}</h2>${description}`,
             `<a href="/create">create</a>`
         );
@@ -28,8 +28,8 @@ app.get('/page/:pageId', (req, res) => {
             var sanitizedDescription = sanitizeHtml(description, {
                 allowedTags:['h1']
             });
-            var list = template.list(filelist);
-            var html = template.HTML(sanitizedTitle, list,
+            var list = _list(filelist);
+            var html = HTML(sanitizedTitle, list,
                 `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
                 `   <a href="/create">create</a>
                     <a href="/update/${sanitizedTitle}">update</a>
@@ -45,8 +45,8 @@ app.get('/page/:pageId', (req, res) => {
 app.get('/create', (req, res) => {
     fs.readdir('data', (err, fileList) => {
         var title = 'WEB - create';
-        var list = template.list(fileList);
-        var html = template.HTML(title, list, `
+        var list = _list(fileList);
+        var html = HTML(title, list, `
             <form action="/create" method="post">
                 <p><input type="text" name="title" placeholder="title"></p>
                 <p>
@@ -82,8 +82,8 @@ app.get('/update/:pageId', (req, res) => {
         var filteredId = path.parse(req.params.pageId).base;
         fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
             var title = req.params.pageId;
-            var list = template.list(filelist);
-            var html = template.HTML(title, list,
+            var list = _list(filelist);
+            var html = HTML(title, list,
                 `<form action="/update" method="post">
                     <input type="hidden" name="id" value="${title}">
                         <p><input type="text" name="title" placeholder="title" value="${title}">
