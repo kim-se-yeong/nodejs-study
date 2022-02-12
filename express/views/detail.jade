@@ -1,0 +1,15 @@
+html 
+    head 
+        title=_title
+    body 
+        h2=_title
+        span=_description
+        br
+        a(href="/create") create
+        &#32;
+        a(href="/update/#{_title}") update
+
+        form(action="delete" method="post")
+            input(type="hidden" name="id" value="#{_title}")
+            p 
+            input(type="submit" value="delete")

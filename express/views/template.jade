@@ -1,0 +1,12 @@
+html 
+    head 
+        title WEB - #{_title}
+        meta(charset="utf-8")
+    body 
+        h1 
+            a(href="/") WEB 
+        ul
+            each val in _list
+                li 
+                    a(href="/page/#{val}") #{val}
+        include ./detail.jade

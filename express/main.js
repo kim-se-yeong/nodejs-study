@@ -6,6 +6,9 @@ import path from 'path';
 import sanitizeHtml from 'sanitize-html';
 import {HTML, list as _list} from './lib/template.js';
 
+app.set('views', './views');
+app.set('view engine', 'jade');
+
 app.get('/', (req, res) => {
     fs.readdir('./data', (err, filelist) => {
         var title = 'Welcome';
@@ -28,16 +31,8 @@ app.get('/page/:pageId', (req, res) => {
             var sanitizedDescription = sanitizeHtml(description, {
                 allowedTags:['h1']
             });
-            var list = _list(filelist);
-            var html = HTML(sanitizedTitle, list,
-                `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-                `   <a href="/create">create</a>
-                    <a href="/update/${sanitizedTitle}">update</a>
-                    <form action="delete_process" method="post">
-                    <input type="hidden" name="id" value="${sanitizedTitle}">
-                    <input type="submit" value="delete"
-                    </form>`);
-            res.send(html);
+            res.render('template', {_title:sanitizedTitle,
+                _description:sanitizedDescription, _list:filelist});
         });
     });
 });
