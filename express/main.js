@@ -39,7 +39,7 @@ app.get('/page/:pageId', (req, res) => {
 
 app.get('/create', (req, res) => {
     fs.readdir('data', (err, filelist) => {
-        res.render('create', { _title:"WEB - create", _list:filelist });
+        res.render('create', {_title:"WEB - create", _list:filelist});
     });
 });
 
@@ -63,7 +63,8 @@ app.get('/update/:pageId', (req, res) => {
     fs.readdir('data', function(err, filelist) {
         var filteredId = path.parse(req.params.pageId).base;
         fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
-            res.render('update', { _title:req.params.pageId, _description:description, _list:filelist});
+            res.render('update', {_title:req.params.pageId,
+                _description:description, _list:filelist});
         });
     });
 });
