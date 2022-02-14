@@ -1,0 +1,20 @@
+doctype html
+html 
+    head 
+        title WEB - #{_title}
+        meta(charset="utf-8")
+    body 
+        h1 
+            a(href="/") WEB 
+        h1
+            ul
+                each val in _list
+                    li 
+                        a(href="/page/#{val}") #{val}
+        form(action="/create" method="post")
+            p
+                input(type="text" name="title" placeholder="title")
+            p 
+                textarea(name="description", placeholder="description")
+            p
+                input(type="submit") 
