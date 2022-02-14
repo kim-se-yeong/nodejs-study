@@ -11,10 +11,10 @@ html
                 each val in _list
                     li 
                         a(href="/page/#{val}") #{val}
-        form(action="/create" method="post")
-            p
-                input(type="text" name="title" placeholder="title")
-            p 
-                textarea(name="description", placeholder="description")
-            p
-                input(type="submit") 
+            form(action="/create" method="post")
+                p
+                    input(type="text" name="title" placeholder="title")
+                p 
+                    textarea(name="description", placeholder="description")
+                p
+                    input(type="submit") 

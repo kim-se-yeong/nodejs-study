@@ -39,23 +39,7 @@ app.get('/page/:pageId', (req, res) => {
 
 app.get('/create', (req, res) => {
     fs.readdir('data', (err, filelist) => {
-        // res.render('create', {
-        //     _title:"WEB - create", _list:filelist 
-        // });
-        var title = 'WEB - create';
-        var list = _list(filelist);
-        var html = HTML(title, list, `
-            <form action="/create" method="post">
-                <p><input type="text" name="title" placeholder="title"></p>
-                <p>
-                    <textarea name="description" placeholder="description"></textarea>
-                </p>
-                <p>
-                    <input type="submit">
-                </p>
-            </form>
-        `, '');
-        res.send(html);
+        res.render('create', { _title:"WEB - create", _list:filelist });
     });
 });
 
