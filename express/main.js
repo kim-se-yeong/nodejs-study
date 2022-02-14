@@ -31,7 +31,7 @@ app.get('/page/:pageId', (req, res) => {
             var sanitizedDescription = sanitizeHtml(description, {
                 allowedTags:['h1']
             });
-            res.render('template', {_title:sanitizedTitle,
+            res.render('detail', {_title:sanitizedTitle,
                 _description:sanitizedDescription, _list:filelist});
         });
     });
