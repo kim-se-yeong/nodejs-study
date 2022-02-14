@@ -63,22 +63,7 @@ app.get('/update/:pageId', (req, res) => {
     fs.readdir('data', function(err, filelist) {
         var filteredId = path.parse(req.params.pageId).base;
         fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
-            var title = req.params.pageId;
-            var list = _list(filelist);
-            var html = HTML(title, list,
-                `<form action="/update" method="post">
-                    <input type="hidden" name="id" value="${title}">
-                        <p><input type="text" name="title" placeholder="title" value="${title}">
-                        <p>
-                            <textarea name="description" placeholder="description">${description}</textarea>
-                        </p>
-                        <p>
-                            <input type="submit">
-                        </p>
-                </form>
-                `, `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
-                );
-            res.send(html);
+            res.render('update', { _title:req.params.pageId, _description:description, _list:filelist});
         });
     });
 });
