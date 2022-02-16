@@ -14,7 +14,7 @@ html
             a(href="/create") create
             |  
             a(href="/update/#{_title}") update
-        form(action="delete" method="post")
+        form(action="/delete" method="post")
             input(type="hidden" name="id" value="#{_title}")
             p 
             input(type="submit" value="delete")

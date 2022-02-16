@@ -1,13 +1,14 @@
 import express from 'express';
 const app = express();
 import fs from 'fs';
-import qs from 'querystring';
 import path from 'path';
 import sanitizeHtml from 'sanitize-html';
 import {HTML, list as _list} from './lib/template.js';
 
 app.set('views', './views');
 app.set('view engine', 'jade');
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 app.get('/', (req, res) => {
     fs.readdir('./data', (err, filelist) => {
@@ -44,24 +45,16 @@ app.get('/create', (req, res) => {
 });
 
 app.post('/create', (req, res) => {
-    var body = '';
-    req.on('data', (data) => {
-        body = body + data;
-    });
-    req.on('end', () => {
-        var post = qs.parse(body);
-        var title = post.title;
-        var description = post.description;
-        fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
-            res.writeHead(302, {Location: `/page/${title}`});
-            res.end();
-        });
-    });
+    var title = req.body.title;
+    var description = req.body.description;
+    fs.writeFile(`data/${title}`, description, 'utf-8', (err) => {
+        res.redirect(`/page/${title}`);
+    })
 });
 
 app.get('/update/:pageId', (req, res) => {
     fs.readdir('data', function(err, filelist) {
-        var filteredId = path.parse(req.params.pageId).base;
+        var filteredId = req.params.pageId;
         fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
             res.render('update', {_title:req.params.pageId,
                 _description:description, _list:filelist});
@@ -70,22 +63,22 @@ app.get('/update/:pageId', (req, res) => {
 });
 
 app.post('/update', (req, res) => {
-    var body = '';
-    req.on('data', (data) => {
-        body = body + data;
-    });
-    req.on('end', () => {
-        var post = qs.parse(body);
-        var id = post.id;
-        var title = post.title;
-        var description = post.description;
-        fs.rename(`data/${id}`, `data/${title}`, (err) => {
-            fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
-                res.writeHead(302, {Location: `/page/${title}`});
-                res.end();
-            });
+    var id = req.body.id;
+    var title = req.body.title;
+    var description = req.body.description;
+    fs.rename(`data/${id}`, `data/${title}`, (err) => {
+        fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
+            res.writeHead(302, {Location: `/page/${title}`});
+            res.end();
         });
     });
+});
+
+app.post('/delete', (req, res) => {
+    var id = req.body.id;
+    fs.unlink(`data/${id}`, (err) => {
+        res.redirect('/');
+    })
 });
 
 app.listen(3000, () => {
