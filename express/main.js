@@ -12,39 +12,39 @@ app.set('view engine', 'jade');
 //parse application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: false}));
 app.use(compression());
-
-app.get('/', (req, res) => {
+app.get('*', (req, res, next) => {
     fs.readdir('./data', (err, filelist) => {
-        var title = 'Welcome';
-        var description = 'Hello, Node.js'
-        var list = _list(filelist);
-        var html = HTML(title, list,
-            `<h2>${title}</h2>${description}`,
-            `<a href="/create">create</a>`
-        );
-        res.send(html);
+        req.list = filelist;
+        next();
     });
 });
 
+app.get('/', (req, res) => {
+    var title = 'Welcome';
+    var description = 'Hello, Node.js'
+    var list = _list(req.list);
+    var html = HTML(title, list,
+        `<h2>${title}</h2>${description}`,
+        `<a href="/create">create</a>`
+    );
+    res.send(html);
+});
+
 app.get('/page/:pageId', (req, res) => {
-    fs.readdir('./data', (err, filelist) => {
-        var filteredId = path.parse(req.params.pageId).base;
-        fs.readFile(`./data/${filteredId}`, 'utf8', (err, description) => {
-            var title = req.params.pageId;
-            var sanitizedTitle = sanitizeHtml(title);
-            var sanitizedDescription = sanitizeHtml(description, {
-                allowedTags:['h1']
-            });
-            res.render('detail', {_title:sanitizedTitle,
-                _description:sanitizedDescription, _list:filelist});
+    var filteredId = path.parse(req.params.pageId).base;
+    fs.readFile(`./data/${filteredId}`, 'utf8', (err, description) => {
+        var title = req.params.pageId;
+        var sanitizedTitle = sanitizeHtml(title);
+        var sanitizedDescription = sanitizeHtml(description, {
+            allowedTags:['h1']
         });
+        res.render('detail', {_title:sanitizedTitle,
+            _description:sanitizedDescription, _list:req.list});
     });
 });
 
 app.get('/create', (req, res) => {
-    fs.readdir('./data', (err, filelist) => {
-        res.render('create', {_title:"WEB - create", _list:filelist});
-    });
+    res.render('create', {_title:"WEB - create", _list:req.list});
 });
 
 app.post('/create', (req, res) => {
@@ -56,12 +56,10 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/update/:pageId', (req, res) => {
-    fs.readdir('./data', function(err, filelist) {
-        var filteredId = req.params.pageId;
-        fs.readFile(`./data/${filteredId}`, 'utf8', (err, description) => {
-            res.render('update', {_title:req.params.pageId,
-                _description:description, _list:filelist});
-        });
+    var filteredId = req.params.pageId;
+    fs.readFile(`./data/${filteredId}`, 'utf8', (err, description) => {
+        res.render('update', {_title:req.params.pageId,
+            _description:description, _list:req.list});
     });
 });
 
