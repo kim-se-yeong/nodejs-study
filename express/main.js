@@ -7,8 +7,9 @@ import {HTML, list as _list} from './lib/template.js';
 
 app.set('views', './views');
 app.set('view engine', 'jade');
+
+//parse application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: false}));
-app.use(express.json());
 
 app.get('/', (req, res) => {
     fs.readdir('./data', (err, filelist) => {
