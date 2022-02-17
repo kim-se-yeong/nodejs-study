@@ -4,12 +4,14 @@ import fs from 'fs';
 import path from 'path';
 import sanitizeHtml from 'sanitize-html';
 import {HTML, list as _list} from './lib/template.js';
+import compression from 'compression';
 
 app.set('views', './views');
 app.set('view engine', 'jade');
 
 //parse application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: false}));
+app.use(compression());
 
 app.get('/', (req, res) => {
     fs.readdir('./data', (err, filelist) => {
