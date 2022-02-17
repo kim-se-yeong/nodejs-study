@@ -27,9 +27,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/page/:pageId', (req, res) => {
-    fs.readdir('data', (err, filelist) => {
+    fs.readdir('./data', (err, filelist) => {
         var filteredId = path.parse(req.params.pageId).base;
-        fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
+        fs.readFile(`./data/${filteredId}`, 'utf8', (err, description) => {
             var title = req.params.pageId;
             var sanitizedTitle = sanitizeHtml(title);
             var sanitizedDescription = sanitizeHtml(description, {
@@ -42,7 +42,7 @@ app.get('/page/:pageId', (req, res) => {
 });
 
 app.get('/create', (req, res) => {
-    fs.readdir('data', (err, filelist) => {
+    fs.readdir('./data', (err, filelist) => {
         res.render('create', {_title:"WEB - create", _list:filelist});
     });
 });
@@ -50,15 +50,15 @@ app.get('/create', (req, res) => {
 app.post('/create', (req, res) => {
     var title = req.body.title;
     var description = req.body.description;
-    fs.writeFile(`data/${title}`, description, 'utf-8', (err) => {
+    fs.writeFile(`./data/${title}`, description, 'utf-8', (err) => {
         res.redirect(`/page/${title}`);
     })
 });
 
 app.get('/update/:pageId', (req, res) => {
-    fs.readdir('data', function(err, filelist) {
+    fs.readdir('./data', function(err, filelist) {
         var filteredId = req.params.pageId;
-        fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
+        fs.readFile(`./data/${filteredId}`, 'utf8', (err, description) => {
             res.render('update', {_title:req.params.pageId,
                 _description:description, _list:filelist});
         });
@@ -69,8 +69,8 @@ app.post('/update', (req, res) => {
     var id = req.body.id;
     var title = req.body.title;
     var description = req.body.description;
-    fs.rename(`data/${id}`, `data/${title}`, (err) => {
-        fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
+    fs.rename(`./data/${id}`, `data/${title}`, (err) => {
+        fs.writeFile(`./data/${title}`, description, 'utf8', (err) => {
             res.redirect(`/page/${title}`);
         });
     });
@@ -78,7 +78,7 @@ app.post('/update', (req, res) => {
 
 app.post('/delete', (req, res) => {
     var id = req.body.id;
-    fs.unlink(`data/${id}`, (err) => {
+    fs.unlink(`./data/${id}`, (err) => {
         res.redirect('/');
     })
 });
