@@ -68,8 +68,7 @@ app.post('/update', (req, res) => {
     var description = req.body.description;
     fs.rename(`data/${id}`, `data/${title}`, (err) => {
         fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
-            res.writeHead(302, {Location: `/page/${title}`});
-            res.end();
+            res.redirect(`/page/${title}`);
         });
     });
 });
