@@ -21,4 +21,4 @@ app.use((err, req, res, next) => {
         res.status(500).send('somthing broken!');
 });
 
-app.listen('3001', () => console.log('middleware server running!'));
+app.listen('3000', () => console.log('middleware server running!'));
