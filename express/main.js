@@ -7,7 +7,7 @@ import {HTML, list as _list} from './lib/template.js';
 import compression from 'compression';
 
 app.set('views', './views');
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 //parse application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: false}));

@@ -10,7 +10,7 @@ html
             ul
                 each val in _list
                     li 
-                        a(href="/page/#{val}") #{val}
+                        a(href=`/page/${val}`) #{val}
             form(action="/create" method="post")
                 p
                     input(type="text" name="title" placeholder="title")
