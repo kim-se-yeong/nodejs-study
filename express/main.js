@@ -10,6 +10,7 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 //parse application/x-www-form-urlencoded
+app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
 app.use(compression());
 app.get('*', (req, res, next) => {
@@ -24,8 +25,9 @@ app.get('/', (req, res) => {
     var description = 'Hello, Node.js'
     var list = _list(req.list);
     var html = HTML(title, list,
-        `<h2>${title}</h2>${description}`,
-        `<a href="/create">create</a>`
+        `<h2>${title}</h2>${description}
+        <img src="/hello.png" style="width:100px; display:block">`,
+        `<a href="/create">create</a>`,
     );
     res.send(html);
 });
