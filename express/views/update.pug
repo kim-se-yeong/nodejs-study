@@ -10,8 +10,8 @@ html
             ul
                 each val in _list
                     li 
-                        a(href=`/page/${val}`) #{val}
-            form(action="/update" method="post")
+                        a(href=`/topic/${val}`) #{val}
+            form(action="/topic/update" method="post")
                 input(type="hidden" name="id" value=`${_title}`) 
                 p 
                     input(type="text" name="title" placeholder="title" value=`${_title}`)
@@ -19,6 +19,6 @@ html
                     textarea(name="description", placeholder="description") #{_description} 
                 p 
                     input(type="submit")
-            a(href="/create") create
+            a(href="/topic/create") create
             |  
-            a(href=`/update?id=${_title}`) update 
+            a(href=`/topic/update?id=${_title}`) update 
