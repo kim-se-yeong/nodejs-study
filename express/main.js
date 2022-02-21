@@ -1,4 +1,5 @@
-import express from 'express';
+// import express from 'express';
+import express from './lib/express.js';
 const app = express();
 import fs from 'fs';
 import {HTML, list as _list} from './lib/template.js';
