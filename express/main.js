@@ -2,6 +2,7 @@
 import express from './lib/express.js';
 const app = express();
 import fs from 'fs';
+import helmet from 'helmet';
 import compression from 'compression';
 import topicRouter from './routes/topic.js';
 import indexRouter from './routes/index.js';
@@ -11,6 +12,7 @@ app.set('view engine', 'pug');
 
 //parse application/x-www-form-urlencoded
 app.use(express.static('public'));
+app.use(helmet());
 app.use(express.urlencoded({extended: false}));
 app.use(compression());
 app.get('*', (req, res, next) => {
