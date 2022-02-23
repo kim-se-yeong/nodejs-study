@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@routes/*": ["./express/routes/*"],
+      "@lib/*": ["./express/lib/*"]
+    }
+  }
+}

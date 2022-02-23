@@ -29,5 +29,8 @@
     "pug": "^3.0.2",
     "sanitize-html": "^2.7.0",
     "underscore": "^1.13.2"
+  },
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^4.1.0"
   }
 }
