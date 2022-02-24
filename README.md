@@ -18,6 +18,18 @@ Create babel config file
 
 Adding `'type':'module'` to the package.json
 
+
+# how to express-generator
+For `npx` command (version 8.20)
+
+* $ npx express-generator
+
+For earlier version
+* $ npm install -g express-generator
+
+Add option `(-v pug)` For using the template engine pug.
+
+
 ---
 
 ### Reference
