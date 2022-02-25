@@ -7,7 +7,7 @@
 
 Install module
 
-* @babel/node
+* @babel/node ( globally )
 * @babel/cli
 * @babel/core
 * @babel/preset-env
