@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Server side javascript study",
   "main": "webserver.js",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node ./express/main.js"
   },
   "repository": {
     "type": "git",
@@ -22,15 +22,12 @@
     "@babel/core": "^7.17.2",
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
+    "babel-plugin-module-resolver": "^4.1.0",
     "compression": "^1.7.4",
     "express": "^4.17.2",
     "helmet": "^5.0.2",
-    "jade": "^1.11.0",
     "pug": "^3.0.2",
     "sanitize-html": "^2.7.0",
     "underscore": "^1.13.2"
-  },
-  "devDependencies": {
-    "babel-plugin-module-resolver": "^4.1.0"
   }
 }
