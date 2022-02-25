@@ -4,7 +4,7 @@ const app = express();
 import fs from 'fs';
 import helmet from 'helmet';
 import compression from 'compression';
-import topicRouter from '@route/topic.js';
+import topicRouter from '@routes/topic.js';
 import indexRouter from '@routes/index.js';
 
 app.set('views', './views');
