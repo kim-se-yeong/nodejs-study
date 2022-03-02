@@ -4,8 +4,16 @@ const app = express();
 import fs from 'fs';
 import helmet from 'helmet';
 import compression from 'compression';
-import topicRouter from '@routes/topic.js';
-import indexRouter from '@routes/index.js';
+import topicRouter from './routes/topic.js';
+import indexRouter from './routes/index.js';
+import authRouter from './routes/auth.js'
+import session from 'express-session';
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+}))
 
 app.set('views', './views');
 app.set('view engine', 'pug');
@@ -23,6 +31,7 @@ app.get('*', (req, res, next) => {
 });
 
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 app.use('/topic', topicRouter);
 
 app.use((req, res, next) => {

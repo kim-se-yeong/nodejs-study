@@ -7,6 +7,7 @@ export function HTML(title, list, body, control) {
                 <meta charset="utf-8">
             </head>
             <body>
+                <a href="/auth/login">login</a>
                 <h1><a href="/">WEB</a><h1>
                 ${list}
                 ${control}
