@@ -15,6 +15,9 @@ app.use(session({
     saveUninitialized: true,
 }))
 
+var passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+
 app.set('views', './views');
 app.set('view engine', 'pug');
 
