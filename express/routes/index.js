@@ -4,6 +4,7 @@ const router = express.Router();
 import {HTML, list as _list} from '../lib/template.js';
 
 router.get('/', (req, res) => {
+    console.log('/', req.user);
     var title = 'Welcome';
     var description = 'Hello, Node.js'
     var list = _list(req.list);
