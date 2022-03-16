@@ -12,11 +12,11 @@ import passport from 'passport';
 import passportlocal from 'passport-local';
 const localstrategy = passportlocal.Strategy;
 
-app.set('views', './views');
+app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 
 //parse application/x-www-form-urlencoded
-app.use(express.static('public'));
+app.use(express.static( __dirname + '/public'));
 app.use(helmet());
 app.use(express.urlencoded({extended: false}));
 app.use(compression());
@@ -74,7 +74,8 @@ app.post('/auth/login',
 }));
 
 app.get('*', (req, res, next) => {
-    fs.readdir('./data', (err, filelist) => {
+    fs.readdir(__dirname + '/data', (err, filelist) => {
+        console.log('fileList ', filelist)
         req.list = filelist;
         next();
     });
