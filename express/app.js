@@ -48,7 +48,7 @@ app.get('/dynamic', function(req, res) {
     </html>`;
     res.send(output);
 })
-app.use(static('public'));
+app.use(express.static('public'));
 
 //use query string
 app.get('/topic', function(req, res) {
