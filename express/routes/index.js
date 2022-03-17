@@ -1,7 +1,7 @@
-import express from '../lib/express.js';
+import express from '@lib/express.js';
 const router = express.Router();
 
-import {HTML, list as _list} from '../lib/template.js';
+import {HTML, list as _list} from '@lib/template.js';
 
 router.get('/', (req, res) => {
     console.log('/', req.user);
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     var html = HTML(title, list,
         `<h2>${title}</h2>${description}
         <img src="/hello.png" style="width:100px; display:block">`,
-        `<a href="/create">create</a>`,
+        `<a href="/topic/create">create</a>`,
     );
     res.send(html);
 });

@@ -1,4 +1,4 @@
-import express from '../lib/express.js';
+import express from '@lib/express.js';
 const router = express.Router();
 
 router.get('/login', (req, res) => {

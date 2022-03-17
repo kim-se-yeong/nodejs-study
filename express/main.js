@@ -4,9 +4,9 @@ const app = express();
 import fs from 'fs';
 import helmet from 'helmet';
 import compression from 'compression';
-import topicRouter from './routes/topic.js';
-import indexRouter from './routes/index.js';
-import authRouter from './routes/auth.js'
+import topicRouter from '@routes/topic.js';
+import indexRouter from '@routes/index.js';
+import authRouter from '@routes/auth.js'
 import session from 'express-session';
 import passport from 'passport';
 import passportlocal from 'passport-local';
