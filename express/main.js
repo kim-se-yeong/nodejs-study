@@ -75,7 +75,6 @@ app.post('/auth/login',
 
 app.get('*', (req, res, next) => {
     fs.readdir(__dirname + '/data', (err, filelist) => {
-        console.log('fileList ', filelist)
         req.list = filelist;
         next();
     });
