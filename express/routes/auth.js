@@ -5,6 +5,13 @@ router.get('/login', (req, res) => {
     res.render('login', {_title:"WEB - create"});
 });
 
+router.get('/logout', (req, res) => {
+    req.logOut();
+    req.session.save((err) => {
+        res.redirect('/');
+    })
+})
+
 // router.post('/login', (req, res) => {
 //     var post = req.body;
 //     var email = post.email;
