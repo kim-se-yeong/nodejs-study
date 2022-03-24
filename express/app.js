@@ -3,9 +3,10 @@ const app = express();
 app.locals.pretty = true;
 
 //template 있는 디렉토리
-app.set('views', './views');
+app.set('views', __dirname + '/views');
 // 사용할 template engine
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
+app.use(express.static(__dirname + '/public'));
 
 app.get('/template', function(req, res) {
     res.render('temp', {time:Date(), _title:'Jade'});
@@ -48,7 +49,6 @@ app.get('/dynamic', function(req, res) {
     </html>`;
     res.send(output);
 })
-app.use(express.static('public'));
 
 //use query string
 app.get('/topic', function(req, res) {
