@@ -17,7 +17,17 @@ app.get('/', (req, res, next) => {
     } else {
         req.session.num = req.session.num + 1;
     }
-    res.send(`Vies : ${req.session.num}`);
+    res.send(`Views : ${req.session.num}`);
+})
+
+app.get('/destroy', (req, res, next) => {
+    if (req.session) {
+        req.session.destroy(() => {
+            res.redirect('/');
+        })
+    } else {
+        res.send('no session to destroy');
+    }
 })
 
 app.listen(3000, () => { console.log('session server listen!') });
